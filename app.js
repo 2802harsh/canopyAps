@@ -91,8 +91,13 @@ app.get('/owner/dashboard', (req, res) => {
 
 // Building
 app.get('/owner/addBuilding', (req, res) => {
-    if(req.session.loggedIn && req.session.userType == "Owner")
-        res.render('ownerAddBuilding')
+    if(req.session.loggedIn && req.session.userType == "Owner") {
+        let query = `SELECT * FROM TenantTable;`;
+        con.query(query, function (err, result, fields) {
+            if (err) throw err;
+            res.render('ownerAddBuilding', {tenants: result})
+        });
+    }
     else
         res.redirect("/owner/login");
 })

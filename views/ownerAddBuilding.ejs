@@ -45,7 +45,11 @@
                 <input type="text" id="flatnumber${i}" name="flatnumber${i}">
 
                 <label>Tenant: </label>
-                <input type="text" id="tenantid${i}" name="tenantid${i}">
+                <select name="tenantid${i}" id="tenantid${i}">
+                    <% tenants.forEach(function(tenant){ %>
+                        <option value="<%= tenant.Id %>"><%= tenant.TenantName %></option>
+                    <% }); %>
+                </select>
 
                 <label>Rent: </label>
                 <input type="text" id="rent${i}" name="rent${i}">
