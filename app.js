@@ -3,7 +3,7 @@ const app = express()
 const mysql = require('mysql');
 const bcrypt = require('bcrypt');
 const session = require('express-session');
-const e = require('express');
+const dbCreds = require('db.js');
 
 app.set('view engine', 'ejs');
 app.use(express.json())
@@ -16,13 +16,7 @@ app.use(session({
     saveUninitialized: true
 }))
 
-
-const con = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "shreyas12",
-    database: "canopy"
-});
+const con = mysql.createConnection(dbCreds);
 
 con.connect((err) => {
     if (err) throw err;
