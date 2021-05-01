@@ -8,7 +8,14 @@
 </head>
 <body>
     Hello, <%= user.OwnerName %> as an owner! <a href="/logout">Logout</a>
-
-    
+    <br/><br/>
+    <a href="/owner/addBuilding">Add Building</a>
+    <br/><br/>
+    My Buildings:
+    <ul>
+    <% buildings.forEach(function(building){ %>
+        <li><%= building.BuildingName %>: <%= building.Address %></li>
+    <% }); %>
+    </ul>
 </body>
 </html>

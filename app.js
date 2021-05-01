@@ -3,7 +3,7 @@ const app = express()
 const mysql = require('mysql');
 const bcrypt = require('bcrypt');
 const session = require('express-session');
-const dbCreds = require('db.js');
+const dbCreds = require('./db.js');
 
 app.set('view engine', 'ejs');
 app.use(express.json())
@@ -61,7 +61,9 @@ app.post('/owner/login', async (req, res) => {
     let query = `SELECT * FROM OwnerTable WHERE OwnerContact = ${contact};`;
     con.query(query, function (err, result, fields) {
         if (err) throw err;
-        if(!result) res.redirect("/owner/login");
+        if(result.length == 0) {
+            return res.redirect("/owner/login");
+        } 
         bcrypt.compare(password, result[0].OwnerPassword).then((resu) => {
             if(resu) {
                 req.session.loggedIn = true;
@@ -77,7 +79,51 @@ app.post('/owner/login', async (req, res) => {
 
 app.get('/owner/dashboard', (req, res) => {
     if(req.session.loggedIn && req.session.userType == "Owner") {
-        res.render('ownerDashboard', {user: req.session.user})
+        let query = `SELECT * FROM BuildingTable WHERE OwnerId = ${req.session.user.Id};`;
+        con.query(query, function (err, result, fields) {
+            if (err) throw err;
+            res.render('ownerDashboard', {user: req.session.user, buildings: result})
+        });
+    }
+    else
+        res.redirect("/owner/login");
+})
+
+// Building
+app.get('/owner/addBuilding', (req, res) => {
+    if(req.session.loggedIn && req.session.userType == "Owner")
+        res.render('ownerAddBuilding')
+    else
+        res.redirect("/owner/login");
+})
+
+app.post('/owner/addBuilding', async (req, res) => {
+    if(req.session.loggedIn && req.session.userType == "Owner") {
+        let name = req.body.name;
+        let floors = req.body.floors;
+        let address = req.body.address;
+        let ownerid = req.session.user.Id;
+        let query = `INSERT INTO BuildingTable (BuildingName, Address, OwnerId, Floors) VALUES ("${name}", "${address}", "${ownerid}", "${floors}");`;
+        con.query(query, function (err, result) {
+            if (err) throw err;
+            console.log(result);
+            let tot = req.body.apartments;
+            let values = [];
+            for(let i=1; i<=tot; i++) {
+                let buildingid = result.insertId;
+                let flatnumber = req.body[`flatnumber${i}`];
+                let tenantid = req.body[`tenantid${i}`];
+                let rent = req.body[`rent${i}`];
+                let startdate = req.body[`startdate${i}`];
+                values.push([buildingid, flatnumber, tenantid, rent, startdate]);
+            }
+            let queryAp = `INSERT INTO ApartmentTable (BuildingId, FlatNumber, TenantId, Rent, StartDate) VALUES ?`;
+            con.query(queryAp, [values], function (err, resu) {
+                if (err) throw err;
+                console.log(resu);
+                res.redirect('/owner/dashboard');
+            });
+        });
     }
     else
         res.redirect("/owner/login");
@@ -112,7 +158,9 @@ app.post('/tenant/login', async (req, res) => {
     let query = `SELECT * FROM TenantTable WHERE TenantContact = ${contact};`;
     con.query(query, function (err, result, fields) {
         if (err) throw err;
-        if(!result) res.redirect("/tenant/login");
+        if(result.length == 0) {
+            return res.redirect("/tenant/login");
+        } 
         bcrypt.compare(password, result[0].TenantPassword).then((resu) => {
             if(resu) {
                 req.session.loggedIn = true;

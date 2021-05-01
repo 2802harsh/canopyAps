@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Owner Registration</title>
+</head>
+<body>
+    <form method="POST">
+        <label>Building Name: </label>
+        <input type="text" id="name" name="name">
+        <br/>
+        <label>Address: </label>
+        <input type="text" id="address" name="address">
+        <br/>
+        <label>Floors: </label>
+        <input type="text" id="floors" name="floors">
+        <br/>
+        <label>Number of Apartments: </label>
+        <input type="text" id="apartments" name="apartments" onchange="changeHandler()">
+        <br/><br/>
+
+        <div id="apsList">
+
+        </div>
+
+        <input type="submit" value="Add Building">
+    </form>
+    <script>
+        const apartments = document.getElementById('apartments');
+        const apsList = document.getElementById('apsList');
+
+        const changeHandler = function(e) {
+            let aps = apartments.value;
+            while(apsList.hasChildNodes()) {
+                apsList.removeChild(apsList.lastChild);
+            }
+            for (let i=1; i<=aps; i++){
+                let div = document.createElement('div');
+                div.innerHTML = `
+                Apartment ${i}
+                <br/>
+                <label>Flat Number: </label>
+                <input type="text" id="flatnumber${i}" name="flatnumber${i}">
+
+                <label>Tenant: </label>
+                <input type="text" id="tenantid${i}" name="tenantid${i}">
+
+                <label>Rent: </label>
+                <input type="text" id="rent${i}" name="rent${i}">
+
+                <label>Start Date: </label>
+                <input type="date" id="startdate${i}" name="startdate${i}">
+                <br/><br/>
+                `
+                apsList.appendChild(div);
+            }
+        }
+
+        apartments.addEventListener('onchange', changeHandler);
+    </script>
+</body>
+</html>
