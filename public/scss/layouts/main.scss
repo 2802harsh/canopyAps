@@ -52,10 +52,11 @@ label.required {
 
     }
 }
-input {
+input , textarea {
     box-sizing: border-box;
     border: 1px solid $border-color;
     padding: 14px 20px;
+    width: 100%;
     @include border-radius(5px);
     font-size: 14px;
     font-family: 'Poppins';

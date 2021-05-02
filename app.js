@@ -16,6 +16,8 @@ app.use(session({
     saveUninitialized: true
 }))
 
+app.use('/static',express.static(__dirname + '/public'));
+
 const con = mysql.createConnection(dbCreds);
 
 con.connect((err) => {
