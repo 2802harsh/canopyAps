@@ -183,19 +183,27 @@ app.get('/tenant/dashboard', (req, res) => {
     if(req.session.loggedIn && req.session.userType == "Tenant") {
         let tenantId = req.session.user.Id;
         let query = `SELECT 
-                        A.*, B.BuildingName, B.Address 
+                        AP.*, B.BuildingName, B.Address 
                     FROM 
-                        ApartmentTable AS A
+                        (SELECT
+                            A.*, P.Date AS LastDate
+                        FROM
+                            ApartmentTable AS A
+                        INNER JOIN
+                            (SELECT Id, ApartmentId, TenantId, MAX(Date) Date FROM PaymentTable GROUP BY TenantId, ApartmentId) AS P
+                        ON
+                            A.Id = P.ApartmentId
+                        WHERE
+                            A.TenantId = ${tenantId}) AS AP
                     INNER JOIN
                         BuildingTable AS B
                     ON
-                        A.BuildingId = B.Id
+                        AP.BuildingId = B.Id
                     WHERE
                         TenantId = ${tenantId}
                     `;
         con.query(query, function (err, result, fields) {
             if (err) throw err;
-            // console.log(result);
             res.render('tenantDashboard', {user: req.session.user, rentedaps: result});
         });
     }

@@ -16,6 +16,7 @@
                 <h3>Flat Num: <%= ap.FlatNumber %></h3>
                 <h3>Rent: <%= ap.Rent %></h3>
                 <h3>Start Date: <%= new Date(ap.StartDate).toLocaleDateString() %></h3>
+                <h3>Last Payment Date: <%= new Date(ap.LastDate).toLocaleDateString() %></h3>
                 <form action="/tenant/payRent" method="post">
                     <input type="hidden" name="buildingId" value="<%= ap.BuildingId %>" />
                     <input type="hidden" name="apartmentId" value="<%= ap.Id %>" />

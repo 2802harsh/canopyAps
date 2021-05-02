@@ -1,7 +1,8 @@
+const password = require('./password');
 const dbCreds = {
     host: "localhost",
     user: "root",
-    password: "shreyas12",
+    password: password,
     database: "canopy"
 };
 
