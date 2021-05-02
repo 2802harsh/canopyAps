@@ -181,7 +181,49 @@ app.post('/tenant/login', async (req, res) => {
 
 app.get('/tenant/dashboard', (req, res) => {
     if(req.session.loggedIn && req.session.userType == "Tenant") {
-        res.render('tenantDashboard', {user: req.session.user})
+        let tenantId = req.session.user.Id;
+        let query = `SELECT 
+                        AP.*, B.BuildingName, B.Address 
+                    FROM 
+                        (SELECT
+                            A.*, P.Date AS LastDate
+                        FROM
+                            ApartmentTable AS A
+                        INNER JOIN
+                            (SELECT Id, ApartmentId, TenantId, MAX(Date) Date FROM PaymentTable GROUP BY TenantId, ApartmentId) AS P
+                        ON
+                            A.Id = P.ApartmentId
+                        WHERE
+                            A.TenantId = ${tenantId}) AS AP
+                    INNER JOIN
+                        BuildingTable AS B
+                    ON
+                        AP.BuildingId = B.Id
+                    WHERE
+                        TenantId = ${tenantId}
+                    `;
+        con.query(query, function (err, result, fields) {
+            if (err) throw err;
+            res.render('tenantDashboard', {user: req.session.user, rentedaps: result});
+        });
+    }
+    else
+        res.redirect("/tenant/login");
+})
+
+
+app.post('/tenant/payRent', (req,res) => {
+    if(req.session.loggedIn && req.session.userType == "Tenant") {
+        let buildingId = req.body.buildingId;
+        let apartmentId = req.body.apartmentId;
+        let tenantId = req.body.tenantId;
+        let rent = req.body.rent;
+        let date = new Date().toISOString().split("T")[0];
+        let query = `INSERT INTO PaymentTable (Date, BuildingId, ApartmentId, TenantId, PaidRent) VALUES ("${date}", "${buildingId}", "${apartmentId}", "${tenantId}", "${rent}");`
+        con.query(query, function (err, result, fields) {
+            if (err) throw err;
+            res.redirect('/tenant/dashboard');
+        });
     }
     else
         res.redirect("/tenant/login");
