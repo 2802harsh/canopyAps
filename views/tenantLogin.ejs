@@ -21,14 +21,15 @@
       <div class="container">
         <div class="signup-content">
           <div class="signup-img">
-            <img src="/static/images/form-img.jpg" alt="" />
+            <img src="/static/images/undraw_unlock_24mb.svg" class="image-login" alt="Tenant Login" />
             <div class="signup-img-content">
-              <h2>Tenant Login</h2>
-              <p>Login page of Tenant</p>
+              <!-- <p>Login page of Tenant</p> -->
             </div>
           </div>
           <div class="signup-form">
             <form method="POST" class="register-form" id="register-form">
+              <h2>Tenant Login</h2>
+              <br><br>
               <div class="form-row">
                 <div class="form-group">
                   <div class="form-input">
@@ -41,6 +42,8 @@
                   </div>
                 </div>
               </div>
+              <a href="/tenant/register" class="form-link">Tenant Registration</a>
+
               <div class="form-submit">
                 <input
                   type="submit"
@@ -49,13 +52,13 @@
                   id="submit"
                   name="submit"
                 />
-                <input
+                <!-- <input
                   type="submit"
                   value="Reset"
                   class="submit"
                   id="reset"
                   name="reset"
-                />
+                /> -->
               </div>
             </form>
           </div>
@@ -67,7 +70,7 @@
     <script src="/static/vendor/jquery/jquery.min.js"></script>
     <script src="/static/vendor/nouislider/nouislider.min.js"></script>
     <script src="/static/vendor/wnumb/wNumb.js"></script>
-    <script src="/staticvendor/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="/static/vendor/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="/static/vendor/jquery-validation/dist/additional-methods.min.js"></script>
     <script src="/static/js/main.js"></script>
   </body>

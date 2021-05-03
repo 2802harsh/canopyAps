@@ -189,7 +189,7 @@ h2 {
   margin: 0;
   padding: 0;
   font-weight: 900;
-  color: #fff;
+  color: black;
   font-family: 'Poppins';
   font-size: 26px;
   text-transform: uppercase;
@@ -219,7 +219,8 @@ body {
 .signup-img {
   position: relative;
   width: 385px;
-  margin-bottom: -8px; }
+  background: #329e5e;
+}
 
 .signup-form {
   width: 1015px;
@@ -302,7 +303,7 @@ input , textarea {
     height: 2px;
     background: #d7d7d7;
     left: 0;
-    bottom: 12px; }
+  }
 
 .form-radio {
   margin-bottom: 18px; }
@@ -610,4 +611,9 @@ input.error {
     -o-flex-direction: column;
     -ms-flex-direction: column; } }
 
-/*# sourceMappingURL=style.css.map */
+.image-login{
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
