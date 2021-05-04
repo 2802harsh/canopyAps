@@ -57,7 +57,7 @@ let tenantDashboardGet = (req, res) => {
                             A.*, P.Date AS LastDate
                         FROM
                             ApartmentTable AS A
-                        INNER JOIN
+                        LEFT JOIN
                             (SELECT Id, ApartmentId, TenantId, MAX(Date) Date FROM PaymentTable GROUP BY TenantId, ApartmentId) AS P
                         ON
                             A.Id = P.ApartmentId
