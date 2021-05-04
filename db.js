@@ -1,3 +1,4 @@
+const mysql = require('mysql');
 const { password , user } = require('./password');
 
 const dbCreds = {
@@ -7,4 +8,11 @@ const dbCreds = {
     database: "canopy"
 };
 
-module.exports = dbCreds;
+const con = mysql.createConnection(dbCreds);
+
+con.connect((err) => {
+    if (err) throw err;
+    console.log("Connected!");
+});
+
+module.exports = con;
