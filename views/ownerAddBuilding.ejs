@@ -5,28 +5,39 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Owner Registration</title>
+    <link rel="stylesheet" href="/static/css/customStyles.css" />
 </head>
 <body>
-    <form method="POST">
-        <label>Building Name: </label>
-        <input type="text" id="name" name="name">
-        <br/>
-        <label>Address: </label>
-        <input type="text" id="address" name="address">
-        <br/>
-        <label>Floors: </label>
-        <input type="text" id="floors" name="floors">
-        <br/>
-        <label>Number of Apartments: </label>
-        <input type="text" id="apartments" name="apartments" onchange="changeHandler()">
-        <br/><br/>
-
-        <div id="apsList">
-
-        </div>
-
-        <input type="submit" value="Add Building">
-    </form>
+    <%- include("./partials/navbar.ejs", {name: user.OwnerName}) %> 
+    <div class = "addBuilding">
+        <form method="POST" class="addBuilding__form">
+            <div>
+                <label>Building Name: </label>
+                <input type="text" id="name" name="name">
+            </div>
+            
+            <div>
+                <label>Address: </label>
+                <input type="text" id="address" name="address">
+            </div>
+            
+            <div>
+                <label>Floors: </label>
+                <input type="text" id="floors" name="floors">
+            </div>
+            
+            <div>
+                <label>Number of Apartments: </label>
+                <input type="text" id="apartments" name="apartments" onchange="changeHandler()">
+            </div>
+    
+            <div id="apsList">
+    
+            </div>
+    
+            <input type="submit" value="Add Building" class="button">
+        </form>
+    </div>
     <script>
         const apartments = document.getElementById('apartments');
         const apsList = document.getElementById('apsList');
