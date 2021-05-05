@@ -103,9 +103,34 @@ let ownerBuildingPost = async (req, res) => {
         res.redirect("/owner/login");
 }
 
+let ownerBuildingPut = async (req, res) => {
+    if(req.session.loggedIn && req.session.userType == "Owner") {
+        let buildingId = req.body.buildingId;
+        let buildingName = req.body.name;
+        let address = req.body.address;
+        let floors = req.body.floors;
+        let query = `UPDATE 
+                        BuildingTable
+                    SET 
+                        BuildingName = "${buildingName}", Address = "${address}", Floors = "${floors}"
+                    WHERE
+                        Id = ${buildingId};
+                    `
+        con.query(query, function (err, result) {
+            if (err) throw err;
+            console.log(result);
+            res.send(result);
+        });
+    }
+    else{
+        res.redirect("/owner/login");
+    }
+}
+
 module.exports = {
     ownerBuildingGet,
     ownerBuildingPost,
+    ownerBuildingPut,
     ownerDashboard,
     ownerLoginGet,
     ownerLoginPost,

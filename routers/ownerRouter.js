@@ -3,6 +3,7 @@ const ownerRouter = express.Router();
 const {
     ownerBuildingGet,
     ownerBuildingPost,
+    ownerBuildingPut,
     ownerDashboard,
     ownerLoginGet,
     ownerLoginPost,
@@ -17,5 +18,6 @@ ownerRouter.post("/login", ownerLoginPost);
 ownerRouter.get("/dashboard", ownerDashboard);
 ownerRouter.get("/addBuilding", ownerBuildingGet);
 ownerRouter.post("/addBuilding", ownerBuildingPost);
+ownerRouter.put("/updateBuilding", ownerBuildingPut);
 
 module.exports = ownerRouter;
