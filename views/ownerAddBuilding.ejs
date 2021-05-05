@@ -11,31 +11,30 @@
     <%- include("./partials/navbar.ejs", {name: user.OwnerName}) %> 
     <div class = "addBuilding">
         <form method="POST" class="addBuilding__form">
-            <div>
+            <div class="addBuilding__details">
                 <label>Building Name: </label>
                 <input type="text" id="name" name="name">
             </div>
-            
-            <div>
+            <div class="addBuilding__details">
                 <label>Address: </label>
                 <input type="text" id="address" name="address">
             </div>
             
-            <div>
+            <div class="addBuilding__details">
                 <label>Floors: </label>
                 <input type="text" id="floors" name="floors">
             </div>
             
-            <div>
+            <div class="addBuilding__details">
                 <label>Number of Apartments: </label>
                 <input type="text" id="apartments" name="apartments" onchange="changeHandler()">
             </div>
-    
             <div id="apsList">
-    
+                
             </div>
-    
-            <input type="submit" value="Add Building" class="button">
+            <div>
+                <input type="submit" value="Add Building" class="button">
+            </div>
         </form>
     </div>
     <script>
@@ -52,22 +51,26 @@
                 div.innerHTML = `
                 Apartment ${i}
                 <br/>
-                <label>Flat Number: </label>
-                <input type="text" id="flatnumber${i}" name="flatnumber${i}">
-
-                <label>Tenant: </label>
-                <select name="tenantid${i}" id="tenantid${i}">
-                    <% tenants.forEach(function(tenant){ %>
-                        <option value="<%= tenant.Id %>"><%= tenant.TenantName %></option>
-                    <% }); %>
-                </select>
-
-                <label>Rent: </label>
-                <input type="text" id="rent${i}" name="rent${i}">
-
-                <label>Start Date: </label>
-                <input type="date" id="startdate${i}" name="startdate${i}">
-                <br/><br/>
+                <div class="apsList__details">
+                    <label>Flat Number: </label>
+                    <input type="text" id="flatnumber${i}" name="flatnumber${i}">
+                </div>
+                <div class="apsList__details">
+                    <label>Tenant: </label>
+                    <select name="tenantid${i}" id="tenantid${i}">
+                        <% tenants.forEach(function(tenant){ %>
+                            <option value="<%= tenant.Id %>"><%= tenant.TenantName %></option>
+                        <% }); %>
+                    </select>
+                </div>
+                <div class="apsList__details">
+                    <label>Rent: </label>
+                    <input type="text" id="rent${i}" name="rent${i}">
+                </div>
+                <div class="apsList__details">
+                    <label>Start Date: </label>
+                    <input type="date" id="startdate${i}" name="startdate${i}">
+                </div>
                 `
                 apsList.appendChild(div);
             }
