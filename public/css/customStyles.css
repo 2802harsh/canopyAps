@@ -262,9 +262,15 @@ input[type=text]:focus {
   align-items: center;
   justify-content: space-between;
 }
+
 .index__hero-text h1 {
   margin: 0;
+  line-height: normal;
   font-size: 4rem;
+}
+
+.index__hero-text p {
+  font-size: 1.1rem;
 }
 
 .index__hero-image img{
