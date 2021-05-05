@@ -12,13 +12,13 @@ let tenantRegisterPost = async (req, res) => {
     let contact = req.body.contact;
     let address = req.body.address;
     let password = req.body.password;
-    if(!(name && contact && address && password)) res.redirect("/tenant/register");
+    if(!(name && contact && address && password)) return res.redirect("/tenant/register");
     let passwordHash = await bcrypt.hash(password, 10);
     let query = `INSERT INTO TenantTable (TenantName, TenantContact, TenantAddress, TenantPassword) VALUES ("${name}", "${contact}", "${address}", "${passwordHash}");`;
     con.query(query, function (err, result) {
         if (err) {
             console.log(err);
-            res.redirect("/tenant/register");
+            return res.redirect("/tenant/register");
         }
         console.log(result);
         res.redirect('/tenant/login');
@@ -32,12 +32,12 @@ let tenantLoginGet = (req, res) => {
 let tenantLoginPost = async (req, res) => {
     let contact = req.body.contact;
     let password = req.body.password;
-    if(!(contact && password)) res.redirect("/tenant/login");
+    if(!(contact && password)) return res.redirect("/tenant/login");
     let query = `SELECT * FROM TenantTable WHERE TenantContact = ${contact};`;
     con.query(query, function (err, result, fields) {
         if (err) {
             console.log(err);
-            res.redirect("/tenant/login");
+            return res.redirect("/tenant/login");
         }
         if(result.length == 0) {
             return res.redirect("/tenant/login");
@@ -99,7 +99,7 @@ let tenantPayRentPost = (req,res) => {
         con.query(query, function (err, result, fields) {
             if (err) {
                 console.log(err);
-                res.redirect("/tenant/dashboard");
+                return res.redirect("/tenant/dashboard");
             }
             res.redirect('/tenant/dashboard');
         });

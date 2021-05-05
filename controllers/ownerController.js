@@ -12,13 +12,13 @@ let ownerRegisterPost = async (req, res) => {
   let contact = req.body.contact;
   let address = req.body.address;
   let password = req.body.password;
-  if(!(name && contact && address && password)) res.redirect("/owner/register");
+  if(!(name && contact && address && password)) return res.redirect("/owner/register");
   let passwordHash = await bcrypt.hash(password, 10);
   let query = `INSERT INTO OwnerTable (OwnerName, OwnerContact, OwnerAddress, OwnerPassword) VALUES ("${name}", "${contact}", "${address}", "${passwordHash}");`;
   con.query(query, function (err, result) {
     if (err) {
-      //console.log(err);
-      res.redirect("/owner/register");
+      console.log(err);
+      return res.redirect("/owner/register");
     }
     res.redirect("/owner/login");
   });
@@ -31,12 +31,12 @@ let ownerLoginGet = (req, res) => {
 let ownerLoginPost = async (req, res) => {
   let contact = req.body.contact;
   let password = req.body.password;
-  if(!(contact && password)) res.redirect("/owner/login");
+  if(!(contact && password)) return res.redirect("/owner/login");
   let query = `SELECT * FROM OwnerTable WHERE OwnerContact = ${contact};`;
   con.query(query, function (err, result, fields) {
     if (err) {
       console.log(err);
-      res.redirect("/owner/login");
+      return res.redirect("/owner/login");
     }
     if (result.length == 0) {
       return res.redirect("/owner/login");
@@ -112,7 +112,7 @@ let ownerBuildingPost = async (req, res) => {
     con.query(query, function (err, result) {
       if (err) {
         console.log(err);
-        res.redirect("/owner/addBuilding");
+        return res.redirect("/owner/addBuilding");
       }
       let tot = req.body.apartments;
       let values = [];
@@ -128,7 +128,7 @@ let ownerBuildingPost = async (req, res) => {
       con.query(queryAp, [values], function (err, resu) {
         if (err) {
           console.log(err);
-          res.redirect("/owner/addBuilding");
+          return res.redirect("/owner/addBuilding");
         }
         console.log(resu);
         res.redirect("/owner/dashboard");
@@ -153,12 +153,12 @@ let ownerBuildingPut = async (req, res) => {
         con.query(query, function (err, result) {
             if (err) {
               console.log(err);
-              res.redirect("/owner/dashboard");
+              return res.redirect("/owner/dashboard");
             }
             res.redirect("/owner/dashboard");
         });
     }
-    else{
+    else {
         res.redirect("/owner/login");
     }
 }
@@ -239,7 +239,7 @@ let ownerApartmentPut = async (req, res) => {
         con.query(query, function (err, result) {
             if (err) {
               console.log(err);
-              res.redirect("/owner/dashboard");
+              return res.redirect("/owner/dashboard");
             }
             res.redirect(`/owner/buildings/${buildingId}`);
         });
