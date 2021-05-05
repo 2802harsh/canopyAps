@@ -16,7 +16,6 @@ let ownerRegisterPost = async (req, res) => {
   let query = `INSERT INTO OwnerTable (OwnerName, OwnerContact, OwnerAddress, OwnerPassword) VALUES ("${name}", "${contact}", "${address}", "${passwordHash}");`;
   con.query(query, function (err, result) {
     if (err) throw err;
-    console.log(result);
     res.redirect("/owner/login");
   });
 };
@@ -49,13 +48,31 @@ let ownerLoginPost = async (req, res) => {
 
 let ownerDashboard = (req, res) => {
   if (req.session.loggedIn && req.session.userType == "Owner") {
-    let query = `SELECT * FROM BuildingTable WHERE OwnerId = ${req.session.user.Id};`;
-    con.query(query, function (err, result, fields) {
+    let query1 = `SELECT * FROM BuildingTable WHERE OwnerId = ${req.session.user.Id};`;
+    con.query(query1, function (err, result, fields) {
       if (err) throw err;
-      res.render("ownerDashboard", {
-        user: req.session.user,
-        buildings: result,
-      });
+      let query2 = `SELECT
+                        B.*, A.*
+                    FROM
+                        BuildingTable AS B
+                    INNER JOIN
+                        (SELECT 
+                            AP.*, P.Id AS PaymentId, P.Date AS PaymentDate, T.TenantName 
+                        FROM 
+                            ApartmentTable AS AP 
+                        INNER JOIN PaymentTable AS P ON AP.Id = P.ApartmentId
+                        INNER JOIN TenantTable AS T ON AP.TenantId = T.Id) AS A
+                    ON B.Id = A.BuildingId
+                    WHERE B.OwnerId = ${req.session.user.Id}
+                    ORDER BY PaymentDate DESC
+                    LIMIT 5`
+        con.query(query2, function(err, resu){
+            res.render("ownerDashboard", {
+                    user: req.session.user,
+                    buildings: result,
+                    recentPayments: resu
+                  });
+        })
     });
   } else res.redirect("/owner/login");
 };
@@ -82,7 +99,6 @@ let ownerBuildingPost = async (req, res) => {
     let query = `INSERT INTO BuildingTable (BuildingName, Address, OwnerId, Floors) VALUES ("${name}", "${address}", "${ownerid}", "${floors}");`;
     con.query(query, function (err, result) {
       if (err) throw err;
-      console.log(result);
       let tot = req.body.apartments;
       let values = [];
       for (let i = 1; i <= tot; i++) {
@@ -118,8 +134,7 @@ let ownerBuildingPut = async (req, res) => {
                     `
         con.query(query, function (err, result) {
             if (err) throw err;
-            console.log(result);
-            res.send(result);
+            res.redirect("/owner/dashboard");
         });
     }
     else{
@@ -131,9 +146,16 @@ let ownerApartmentsGet = async (req, res) => {
     if(req.session.loggedIn && req.session.userType == "Owner") {
         let buildingId = req.params.buildingid;
         let query = `SELECT
-                        A.Id AS ApartmentId, A.FlatNumber, A.Rent, A.StartDate, A.TenantId, T.TenantName
+                        A.Id AS ApartmentId, A.FlatNumber, A.Rent, A.StartDate, A.TenantId, A.LastPaymentDate, T.TenantName
                     FROM
-                        ApartmentTable AS A
+                        (SELECT
+                            AP.*, P.Date AS LastPaymentDate
+                        FROM
+                            ApartmentTable AS AP
+                        LEFT JOIN
+                            (SELECT Id, ApartmentId, TenantId, MAX(Date) Date FROM PaymentTable GROUP BY TenantId, ApartmentId) AS P
+                        ON
+                            AP.Id = P.ApartmentId ) AS A
                     INNER JOIN
                         TenantTable as T
                     ON
@@ -166,7 +188,6 @@ let ownerApartmentsGet = async (req, res) => {
 }
 
 let ownerApartmentPut = async (req, res) => {
-    console.log("reaching");
     if(req.session.loggedIn && req.session.userType == "Owner") {
         let buildingId = req.params.buildingid;
         let apartmentId = req.body.apartmentId || null;

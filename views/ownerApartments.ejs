@@ -17,7 +17,9 @@
         <div id="rented-apartments">
             <% apartments.forEach((apartment) => { %>
                 <div>
-                    Apartment: <%= apartment.ApartmentId %>
+                    <h3>Apartment: <%= apartment.ApartmentId %></h3>
+                    <p>Tenant: <%= apartment.TenantName %></p>
+                    <p>Last Payment: <%= new Date(apartment.LastPaymentDate).toLocaleDateString() %></p>
                     <button id="<%= apartment.ApartmentId %>" onclick="edit('<%= JSON.stringify(apartment) %>')">EDIT</button>
                 </div>
             <% }) %>
