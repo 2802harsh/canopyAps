@@ -21,7 +21,7 @@ ownerRouter.get("/dashboard", ownerDashboard);
 ownerRouter.get("/addBuilding", ownerBuildingGet);
 ownerRouter.post("/addBuilding", ownerBuildingPost);
 // ownerRouter.route("/updateBuilding/:id")
-ownerRouter.put("/updateBuilding/:id", ownerBuildingPut);
+ownerRouter.post("/updateBuilding/:id", ownerBuildingPut);
 ownerRouter.route("/buildings/:buildingid")
     .get(ownerApartmentsGet)
     .post(ownerApartmentPut);
