@@ -4,17 +4,54 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Canopy Aps</title>
+    <link rel="stylesheet" href="/static/css/customStyles.css" />
+    <title>Canopy Apartments</title>
 </head>
 <body>
-    <div>
-        <ul>
-            <a href="/owner/login"><li>Owner Login</li></a>
-            <a href="/owner/register"><li>Owner Registration</li></a>
-            <a href="/tenant/login"><li>Tenant Login</li></a>
-            <a href="/tenant/register"><li>Tenant Registration</li></a>
-            <a href="/data"><li>View Data</li></a>
-        </ul>
+    <div class="index">
+        <div class="index__hero">
+            <div class="index__hero-text">
+                <h1>Canopy</h1>
+                <h1>Apartments</h1>
+                <p>An apartment Management tool that enables Owners manage their properties and allot apartments to registered tenants, 
+                who can keep a record of their rented Apartments and pay the rents.</p>
+            </div>
+            <div class="index__hero-image">
+                <img src="/static/images/house.svg" alt="house">
+            </div>
+        </div>
+
+        <div class="roleDesc">
+            <div class="StudentImgWrapper">
+                <img src="/static/images/house.svg" class="StudentImg" alt="owner">
+            </div>
+            <div class="SectionTextWrapper">
+              <h2 class="SectionHeading">OWNER</h2>
+              <p class="SectionText">
+                Login as an owner to add apartments, manage tenants and check for payments
+              </p>
+              <div class="SectionLinkWrapper">
+                <a class="button" href="/owner/login">Login</a>
+                <a class="button" href="/owner/register">Register</a>
+              </div>
+            </div>
+        </div>
+
+        <div class="roleDesc">
+            <div class="StudentImgWrapper">
+              <img src="/static/images/house.svg" class="StudentImg" alt="tenant">
+            </div>
+            <div class="SectionTextWrapper">
+              <h2 class="SectionHeading">TENANT</h2>
+              <p class="SectionText">
+                Login as a tenant to manage your rented apartments and make payments 
+              </p>
+              <div class="SectionLinkWrapper">
+                <a class="button" href="/tenant/login">Login</a>
+                <a class="button" href="/tenant/register">Register</a>
+              </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>

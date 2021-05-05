@@ -5,27 +5,30 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tenant Dashboard</title>
+    <link rel="stylesheet" href="/static/css/customStyles.css" />
 </head>
 <body>
-    Hello, <%= user.TenantName %> as a tenant! <a href="/logout">Logout</a>
-    <h1>Rented Apartments:</h1>
-    <div id="rented-apartments">
-        <% rentedaps.forEach((ap) => { %>
-            <div>
-                <h2>Building: <%= ap.BuildingName %></h2>
-                <h3>Flat Num: <%= ap.FlatNumber %></h3>
-                <h3>Rent: <%= ap.Rent %></h3>
-                <h3>Start Date: <%= new Date(ap.StartDate).toLocaleDateString() %></h3>
-                <h3>Last Payment Date: <%= new Date(ap.LastDate).toLocaleDateString() %></h3>
-                <form action="/tenant/payRent" method="post">
-                    <input type="hidden" name="buildingId" value="<%= ap.BuildingId %>" />
-                    <input type="hidden" name="apartmentId" value="<%= ap.Id %>" />
-                    <input type="hidden" name="tenantId" value="<%= ap.TenantId %>" />
-                    <input type="hidden" name="rent" value="<%= ap.Rent %>" />
-                    <input type="submit" value="Pay" />
-                </form>
-            </div>
-        <% }) %>
+    <%- include("./partials/navbar.ejs", {name: user.TenantName}) %> 
+    <div class="container">
+        <h1>Rented Apartments</h1>
+        <div id="rented-apartments">
+            <% rentedaps.forEach((ap) => { %>
+                <div>
+                    <h2>Building: <%= ap.BuildingName %></h2>
+                    <h3>Flat Num: <%= ap.FlatNumber %></h3>
+                    <h3>Rent: <%= ap.Rent %></h3>
+                    <h3>Start Date: <%= new Date(ap.StartDate).toLocaleDateString() %></h3>
+                    <h3>Last Payment Date: <%= new Date(ap.LastDate).toLocaleDateString() %></h3>
+                    <form action="/tenant/payRent" method="post">
+                        <input type="hidden" name="buildingId" value="<%= ap.BuildingId %>" />
+                        <input type="hidden" name="apartmentId" value="<%= ap.Id %>" />
+                        <input type="hidden" name="tenantId" value="<%= ap.TenantId %>" />
+                        <input type="hidden" name="rent" value="<%= ap.Rent %>" />
+                        <input type="submit" value="Pay" />
+                    </form>
+                </div>
+            <% }) %>
+        </div>
     </div>
 </body>
 </html>
