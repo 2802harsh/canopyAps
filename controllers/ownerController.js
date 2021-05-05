@@ -105,7 +105,7 @@ let ownerBuildingPost = async (req, res) => {
 
 let ownerBuildingPut = async (req, res) => {
     if(req.session.loggedIn && req.session.userType == "Owner") {
-        let buildingId = req.body.buildingId;
+        let buildingId = req.params.id;
         let buildingName = req.body.name;
         let address = req.body.address;
         let floors = req.body.floors;
@@ -127,10 +127,87 @@ let ownerBuildingPut = async (req, res) => {
     }
 }
 
+let ownerApartmentsGet = async (req, res) => {
+    if(req.session.loggedIn && req.session.userType == "Owner") {
+        let buildingId = req.params.buildingid;
+        let query = `SELECT
+                        A.Id AS ApartmentId, A.FlatNumber, A.Rent, A.StartDate, A.TenantId, T.TenantName
+                    FROM
+                        ApartmentTable AS A
+                    INNER JOIN
+                        TenantTable as T
+                    ON
+                        A.TenantId = T.Id
+                    WHERE
+                        A.BuildingId = ${buildingId}
+                    `
+        con.query(query, function (err, result) {
+            if (err) throw err;
+            let query2 = `SELECT 
+                            * 
+                          FROM TenantTable`
+            con.query(query2, function (error, result2){
+                let query3 = `SELECT 
+                                * 
+                            FROM 
+                                BuildingTable
+                            WHERE
+                                Id = ${buildingId}`
+                con.query(query3, function (error, result3){
+                    // res.send({result,result2,result3});
+                    res.render('ownerApartments', {user: req.session.user, apartments: result, tenants: result2, building: result3});
+                })
+            });
+        });
+    }
+    else{
+        res.redirect("/owner/login");
+    }
+}
+
+let ownerApartmentPut = async (req, res) => {
+    console.log("reaching");
+    if(req.session.loggedIn && req.session.userType == "Owner") {
+        let buildingId = req.params.buildingid;
+        let apartmentId = req.body.apartmentId || null;
+        let tenantId = req.body.tenantId;
+        let flatNumber = req.body.flatNumber;
+        let rent = req.body.rent;
+        let startDate = req.body.startDate;
+        let query ;
+        if(apartmentId === null){
+            query= `
+                    INSERT INTO
+                        ApartmentTable (BuildingId, FlatNumber, TenantId, Rent, StartDate)
+                    VALUES
+                        ( "${buildingId}", "${flatNumber}", "${tenantId}", "${rent}", "${startDate}")
+                    `
+        }
+        else{
+            query = `UPDATE
+                        ApartmentTable
+                    SET 
+                        FlatNumber = "${flatNumber}", TenantId = "${tenantId}", Rent = "${rent}", StartDate = "${startDate}"
+                    WHERE
+                        Id = ${apartmentId}`
+        }
+        console.log(query);
+        con.query(query, function (err, result) {
+            if (err) throw err;
+            res.redirect(`/owner/buildings/${buildingId}`);
+        });
+    }
+    else{
+        res.redirect("/owner/login");
+    }
+}
+
 module.exports = {
     ownerBuildingGet,
     ownerBuildingPost,
     ownerBuildingPut,
+    ownerApartmentsGet,
+    ownerApartmentPut,
     ownerDashboard,
     ownerLoginGet,
     ownerLoginPost,
