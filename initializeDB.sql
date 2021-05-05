@@ -6,7 +6,7 @@ CREATE TABLE OwnerTable (
   
 Id INT NOT NULL AUTO_INCREMENT,
 OwnerName Varchar(200) NOT NULL,
-OwnerContact VARCHAR(200) NOT NULL,
+OwnerContact VARCHAR(200) UNIQUE NOT NULL,
 OwnerAddress Varchar(200) NOT NULL,
 OwnerPassword Varchar(200) NOT NULL,
  
@@ -28,7 +28,7 @@ CREATE TABLE TenantTable (
   
 Id INT NOT NULL AUTO_INCREMENT,
 TenantName Varchar(200) NOT NULL,
-TenantContact VARCHAR(200) NOT NULL,
+TenantContact VARCHAR(200) UNIQUE NOT NULL,
 TenantAddress Varchar(200) NOT NULL,
 TenantPassword Varchar(200) NOT NULL,
 

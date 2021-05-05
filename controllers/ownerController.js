@@ -12,10 +12,14 @@ let ownerRegisterPost = async (req, res) => {
   let contact = req.body.contact;
   let address = req.body.address;
   let password = req.body.password;
+  if(!(name && contact && address && password)) res.redirect("/owner/register");
   let passwordHash = await bcrypt.hash(password, 10);
   let query = `INSERT INTO OwnerTable (OwnerName, OwnerContact, OwnerAddress, OwnerPassword) VALUES ("${name}", "${contact}", "${address}", "${passwordHash}");`;
   con.query(query, function (err, result) {
-    if (err) throw err;
+    if (err) {
+      //console.log(err);
+      res.redirect("/owner/register");
+    }
     res.redirect("/owner/login");
   });
 };
@@ -27,9 +31,13 @@ let ownerLoginGet = (req, res) => {
 let ownerLoginPost = async (req, res) => {
   let contact = req.body.contact;
   let password = req.body.password;
+  if(!(contact && password)) res.redirect("/owner/login");
   let query = `SELECT * FROM OwnerTable WHERE OwnerContact = ${contact};`;
   con.query(query, function (err, result, fields) {
-    if (err) throw err;
+    if (err) {
+      console.log(err);
+      res.redirect("/owner/login");
+    }
     if (result.length == 0) {
       return res.redirect("/owner/login");
     }
@@ -50,7 +58,9 @@ let ownerDashboard = (req, res) => {
   if (req.session.loggedIn && req.session.userType == "Owner") {
     let query1 = `SELECT * FROM BuildingTable WHERE OwnerId = ${req.session.user.Id};`;
     con.query(query1, function (err, result, fields) {
-      if (err) throw err;
+      if (err) {
+        throw err;
+      }
       let query2 = `SELECT
                         B.*, A.*
                     FROM
@@ -81,7 +91,9 @@ let ownerBuildingGet = (req, res) => {
   if (req.session.loggedIn && req.session.userType == "Owner") {
     let query = `SELECT * FROM TenantTable;`;
     con.query(query, function (err, result, fields) {
-      if (err) throw err;
+      if (err) {
+        throw err;
+      }
       res.render("ownerAddBuilding", {
         tenants: result,
         user: req.session.user,
@@ -98,7 +110,10 @@ let ownerBuildingPost = async (req, res) => {
     let ownerid = req.session.user.Id;
     let query = `INSERT INTO BuildingTable (BuildingName, Address, OwnerId, Floors) VALUES ("${name}", "${address}", "${ownerid}", "${floors}");`;
     con.query(query, function (err, result) {
-      if (err) throw err;
+      if (err) {
+        console.log(err);
+        res.redirect("/owner/addBuilding");
+      }
       let tot = req.body.apartments;
       let values = [];
       for (let i = 1; i <= tot; i++) {
@@ -111,7 +126,10 @@ let ownerBuildingPost = async (req, res) => {
       }
       let queryAp = `INSERT INTO ApartmentTable (BuildingId, FlatNumber, TenantId, Rent, StartDate) VALUES ?`;
       con.query(queryAp, [values], function (err, resu) {
-        if (err) throw err;
+        if (err) {
+          console.log(err);
+          res.redirect("/owner/addBuilding");
+        }
         console.log(resu);
         res.redirect("/owner/dashboard");
       });
@@ -133,7 +151,10 @@ let ownerBuildingPut = async (req, res) => {
                         Id = ${buildingId};
                     `
         con.query(query, function (err, result) {
-            if (err) throw err;
+            if (err) {
+              console.log(err);
+              res.redirect("/owner/dashboard");
+            }
             res.redirect("/owner/dashboard");
         });
     }
@@ -164,7 +185,9 @@ let ownerApartmentsGet = async (req, res) => {
                         A.BuildingId = ${buildingId}
                     `
         con.query(query, function (err, result) {
-            if (err) throw err;
+            if (err) {
+              throw err;
+            }
             let query2 = `SELECT 
                             * 
                           FROM TenantTable`
@@ -214,7 +237,10 @@ let ownerApartmentPut = async (req, res) => {
         }
         console.log(query);
         con.query(query, function (err, result) {
-            if (err) throw err;
+            if (err) {
+              console.log(err);
+              res.redirect("/owner/dashboard");
+            }
             res.redirect(`/owner/buildings/${buildingId}`);
         });
     }
