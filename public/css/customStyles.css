@@ -361,10 +361,10 @@ input[type=text]:focus {
 }
 
 .pay-now-button{
-  color: blue;
+  color: var(--green-primary);
   font-weight: bold;
   background: white;
-  border: none;
+  border: 1px solid var(--green-primary);
   padding: 5px 15px;
   border-radius: 50px;
 }
