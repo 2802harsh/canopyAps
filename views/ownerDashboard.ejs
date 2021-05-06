@@ -10,20 +10,19 @@
   <body>
     <%- include("./partials/navbar.ejs", {name: user.OwnerName}) %>
 
-    <div class="container">
+    <div class="container my-buildings__container">
       <div class="my-buildings">
         <div class="my-buildings__header">
           <h2>My Buildings</h2>
           <a class="button" href="/owner/addBuilding">Add Building</a>
         </div>
-        <ul class="building-list">
+        <ol class="building-list">
           <% buildings.forEach(function(building){ %>
           <li><%= building.BuildingName %>: <%= building.Address %></li>
           <% }); %>
-        </ul>
+          </ol>
       </div>
     </div>
-    <h1 style="padding-left: 20px;">Recent Payments:</h1>
     <script>
       function getMonthText(idx){
         arr = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"]
@@ -40,44 +39,47 @@
       </div>`;
         }
       };
-    </script>    
-    <table class="recent-payment-container">
-      <tr style="background:  #ddd;">
-        <th>
-          SNo.
-        </th>
-        <th>
-          Date
-        </th>
-        <th>
-          Details
-        </th>
-        <th>
-          Flat Number
-        </th>
-        <th>
-          Rent
-        </th>
+    </script>
+    <div class="container">
+      <h1 class="recent-payments__header">Recent Payments</h1>
+      <table class="recent-payment-container">
+        <tr style="background:  #ddd;">
+          <th>
+            SNo.
+          </th>
+          <th>
+            Date
+          </th>
+          <th>
+            Details
+          </th>
+          <th>
+            Flat Number
+          </th>
+          <th>
+            Rent
+          </th>
+        </tr>
+      <% for(let [index,data] of recentPayments.entries() || []){ %> 
+      <tr>
+        <td><%= index + 1 %></td>
+        <td class="date-container" data-date="<%= data.PaymentDate.getDate() %>" data-month="<%= data.PaymentDate.getMonth() %>"></td>
+        <td>
+          <div>
+            <span class="tenant-name-wrapper">
+              <%= data.TenantName %>
+            </span>
+            <br>
+            <span>
+              <%= data.BuildingName %>
+            </span>          
+          </div>
+        </td>
+        <td><%= data.FlatNumber %></td>
+        <td>₹ <%= data.Rent %></td>
       </tr>
-    <% for(let [index,data] of recentPayments.entries() || []){ %> 
-    <tr>
-      <td><%= index + 1 %></td>
-      <td class="date-container" data-date="<%= data.PaymentDate.getDate() %>" data-month="<%= data.PaymentDate.getMonth() %>"></td>
-      <td>
-        <div>
-          <span class="tenant-name-wrapper">
-            <%= data.TenantName %>
-          </span>
-          <br>
-          <span>
-            <%= data.BuildingName %>
-          </span>          
-        </div>
-      </td>
-      <td><%= data.FlatNumber %></td>
-      <td>₹ <%= data.Rent %></td>
-    </tr>
-    <%} %>
-    </table>
+      <%} %>
+      </table>
+    </div> 
   </body>
 </html>
