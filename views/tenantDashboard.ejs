@@ -11,56 +11,48 @@
     <%- include("./partials/navbar.ejs", {name: user.TenantName, type: "tenant"}) %>
     <div class="container">
       <h1>Rented Apartments</h1>
-      <div id="rented-apartments">
-        <table class="recent-payment-container rented-apartments-tenant">
-          <tr style="background: #ddd">
-            <th>Building.</th>
-            <th>Flat Number</th>
-            <th>Rent</th>
-            <th>Start Date</th>
-            <th>Last Payment Date</th>
-            <th>Pay Now</th>
-          </tr>
-          <% rentedaps.forEach((ap) => { %>
-          <tr>
-            <td><%= ap.BuildingName %></td>
-            <td><%= ap.FlatNumber %></td>
-            <td>₹ <%= ap.Rent %></td>
-            <td
-              class="date-container"
-              data-date="<%= ap.StartDate.getDate() %>"
-              data-month="<%= ap.StartDate.getMonth() %>"
-            ></td>
-            <% if(ap.LastDate){ %>
-            <td
-              class="date-container"
-              data-date="<%= ap.LastDate.getDate() %>"
-              data-month="<%= ap.LastDate.getMonth() %>"
-            ></td>
-            <% } else{ %>
-            <td></td>
-            <% } %>
-            <td>
-              <form action="/tenant/payRent" method="post">
-                <input
-                  type="hidden"
-                  name="buildingId"
-                  value="<%= ap.BuildingId %>"
-                />
-                <input type="hidden" name="apartmentId" value="<%= ap.Id %>" />
-                <input
-                  type="hidden"
-                  name="tenantId"
-                  value="<%= ap.TenantId %>"
-                />
-                <input type="hidden" name="rent" value="<%= ap.Rent %>" />
-                <input type="submit" class="pay-now-button" value="Pay" />
-              </form>
-            </td>
-          </tr>
-          <% }) %>
-        </table>
-      </div>
+      <ol class="building-list">
+        <% rentedaps.forEach(function(ap){ %>
+        <li>
+          <div>
+            <div>
+              <span class="bold-heading">Building:</span> <%= ap.BuildingName %> 
+              <br>
+              <span class="bold-heading">Flat No:</span> <%= ap.FlatNumber %>
+              <br>
+              <span class="bold-heading">Rent:</span> ₹ <%= ap.Rent %>
+            </div>
+              <div class="dates-wrapper">
+                <div
+                class="date-container"
+                data-date="<%= ap.StartDate.getDate() %>"
+                data-month="<%= ap.StartDate.getMonth() %>"
+                data-text="Start Date"
+              ></div>
+              <% if(ap.LastDate){ %>
+              <div
+                class="date-container"
+                data-date="<%= ap.LastDate.getDate() %>"
+                data-month="<%= ap.LastDate.getMonth() %>"
+                data-text="Last Paid Date"
+              ></div>
+            </div>
+              <div class="pay-now-wrapper" data-month="<%= ap.LastDate.getMonth() %>" data-BuildingId="<%= ap.BuildingId %>" data-id="<%= ap.Id %>" data-TenantId="<%= ap.TenantId %>" data-Rent="<%= ap.Rent %>">
+              
+              </div>
+              <% } else { %>
+              </div>
+
+                <div class="pay-now-wrapper" data-month="" data-BuildingId="<%= ap.BuildingId %>" data-id="<%= ap.Id %>" data-TenantId="<%= ap.TenantId %>" data-Rent="<%= ap.Rent %>">
+              
+                </div>
+                <% } %>  
+              
+          </div>
+        
+        </li>
+        <% }); %>
+        </ol>
     </div>
     <script>
       function getMonthText(idx) {
@@ -88,13 +80,52 @@
         ) {
           let element = document.getElementsByClassName("date-container")[i];
           element.innerHTML = `
-            <div>
-          <span class="date-wrapper">${element.getAttribute("data-date")}</span>
+            <div class="dates-wrapper">
+              <div>
+                <span class="bold-heading">${element.getAttribute("data-text")}</span>
+              </div>
+              <div>
+                <span class="date-wrapper">${element.getAttribute("data-date")}</span>
           <br>
           <span class="month-wrapper">${getMonthText(
             element.getAttribute("data-month")
           )}</span>
+              </div>
         </div>`;
+        }
+        for (
+          i = 0;
+          i < document.getElementsByClassName("pay-now-wrapper").length;
+          i++
+        ) {
+          let element = document.getElementsByClassName("pay-now-wrapper")[i];
+          let month = element.getAttribute("data-month");
+          console.log(month);
+          let today = new Date;
+          let apID = element.getAttribute("data-id");;
+          let TenantId = element.getAttribute("data-TenantId");;
+          let Rent = element.getAttribute("data-Rent");;
+          let BuildingId = element.getAttribute("data-BuildingId");;
+
+          if(month == today.getMonth()){
+            element.innerHTML = `<span class="pay-now-button">Paid</span>`;
+          }else{
+            element.innerHTML = `<form action="/tenant/payRent" method="post">
+                  <input
+                    type="hidden"
+                    name="buildingId"
+                    value="${BuildingId}"
+                  />
+                  <input type="hidden" name="apartmentId" value="${apID}" />
+                  <input
+                    type="hidden"
+                    name="tenantId"
+                    value="${TenantId}"
+                  />
+                  <input type="hidden" name="rent" value="${Rent}" />
+                  <input type="submit" class="pay-now-button" value="Pay" />
+                </form>`;
+          }
         }
       };
     </script>
