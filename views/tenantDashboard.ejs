@@ -1,75 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tenant Dashboard</title>
     <link rel="stylesheet" href="/static/css/customStyles.css" />
-</head>
-<body>
-    <%- include("./partials/navbar.ejs", {name: user.TenantName}) %> 
+  </head>
+  <body>
+    <%- include("./partials/navbar.ejs", {name: user.TenantName}) %>
     <div class="container">
-        <h1>Rented Apartments</h1>
-        <div id="rented-apartments">
-            <table class="recent-payment-container rented-apartments-tenant">
-                <tr style="background:  #ddd;">
-                  <th>
-                    Building.
-                  </th>
-                  <th>
-                    Flat Number
-                  </th>
-                  <th>
-                    Rent
-                  </th>
-                  <th>
-                    Start Date
-                  </th>
-                  <th>
-                    Last Payment Date
-                  </th>
-                  <th>
-                    Pay Now
-                  </th>
-                </tr>
-            <% rentedaps.forEach((ap) => { %>
-                <tr>
-                    <td><%= ap.BuildingName %></td>
-                    <td><%= ap.FlatNumber %></td>
-                    <td>₹ <%= ap.Rent %></td>
-                    <td class="date-container" data-date="<%= ap.StartDate.getDate() %>" data-month="<%= ap.StartDate.getMonth() %>"></td>
-                    <td class="date-container" data-date="<%= ap.LastDate.getDate() %>" data-month="<%= ap.LastDate.getMonth() %>"></td>
-                    <td>
-                        <form action="/tenant/payRent" method="post">
-                            <input type="hidden" name="buildingId" value="<%= ap.BuildingId %>" />
-                            <input type="hidden" name="apartmentId" value="<%= ap.Id %>" />
-                            <input type="hidden" name="tenantId" value="<%= ap.TenantId %>" />
-                            <input type="hidden" name="rent" value="<%= ap.Rent %>" />
-                            <input type="submit" class="pay-now-button" value="Pay" />
-                        </form>
-                    </td>
-                </tr>
-            <% }) %>
-           </table>
-        </div>
+      <h1>Rented Apartments</h1>
+      <div id="rented-apartments">
+        <table class="recent-payment-container rented-apartments-tenant">
+          <tr style="background: #ddd">
+            <th>Building.</th>
+            <th>Flat Number</th>
+            <th>Rent</th>
+            <th>Start Date</th>
+            <th>Last Payment Date</th>
+            <th>Pay Now</th>
+          </tr>
+          <% rentedaps.forEach((ap) => { %>
+          <tr>
+            <td><%= ap.BuildingName %></td>
+            <td><%= ap.FlatNumber %></td>
+            <td>₹ <%= ap.Rent %></td>
+            <td
+              class="date-container"
+              data-date="<%= ap.StartDate.getDate() %>"
+              data-month="<%= ap.StartDate.getMonth() %>"
+            ></td>
+            <% if(ap.LastDate){ %>
+            <td
+              class="date-container"
+              data-date="<%= ap.LastDate.getDate() %>"
+              data-month="<%= ap.LastDate.getMonth() %>"
+            ></td>
+            <% } else{ %>
+            <td></td>
+            <% } %>
+            <td>
+              <form action="/tenant/payRent" method="post">
+                <input
+                  type="hidden"
+                  name="buildingId"
+                  value="<%= ap.BuildingId %>"
+                />
+                <input type="hidden" name="apartmentId" value="<%= ap.Id %>" />
+                <input
+                  type="hidden"
+                  name="tenantId"
+                  value="<%= ap.TenantId %>"
+                />
+                <input type="hidden" name="rent" value="<%= ap.Rent %>" />
+                <input type="submit" class="pay-now-button" value="Pay" />
+              </form>
+            </td>
+          </tr>
+          <% }) %>
+        </table>
+      </div>
     </div>
     <script>
-        function getMonthText(idx){
-          arr = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"]
-          return arr[idx];
-        }
-        window.onload = function(){
-          for(i =0 ;i < document.getElementsByClassName("date-container").length;i++){
-            let element = document.getElementsByClassName("date-container")[i];
-            element.innerHTML = `
+      function getMonthText(idx) {
+        arr = [
+          "JAN",
+          "FEB",
+          "MAR",
+          "APR",
+          "MAY",
+          "JUN",
+          "JUL",
+          "AUG",
+          "SEP",
+          "OCT",
+          "NOV",
+          "DEC",
+        ];
+        return arr[idx];
+      }
+      window.onload = function () {
+        for (
+          i = 0;
+          i < document.getElementsByClassName("date-container").length;
+          i++
+        ) {
+          let element = document.getElementsByClassName("date-container")[i];
+          element.innerHTML = `
             <div>
           <span class="date-wrapper">${element.getAttribute("data-date")}</span>
           <br>
-          <span class="month-wrapper">${getMonthText(element.getAttribute("data-month"))}</span>
+          <span class="month-wrapper">${getMonthText(
+            element.getAttribute("data-month")
+          )}</span>
         </div>`;
-          }
-        };
-      </script> 
-</body>
+        }
+      };
+    </script>
+  </body>
 </html>
