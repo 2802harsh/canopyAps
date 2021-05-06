@@ -196,15 +196,15 @@ a{
 }
 
 .addBuilding {
-  max-width: fit-content;
+  width: 26rem;
   margin: 3rem auto;
   border-radius: 10px;
-  padding: 3rem;
+  padding: 2.5rem 2rem;
   transform: max-width 0.4s ease-in;
   box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 }
 
-.addBuilding__form div {
+.addBuilding__details {
   margin-bottom: 2rem;
   display: flex;
   justify-content: space-between;
@@ -213,7 +213,6 @@ a{
 }
 
 .addBuilding__details input[type=text] {
-  margin-left: 5rem;
   box-sizing: border-box;
   border: 1px solid #ebebeb;
   padding: 14px 20px;
@@ -233,14 +232,10 @@ input[type=text]:focus {
 #apsList {
   display: flex;
   flex-direction: column;
+  margin-bottom: 1rem;
 }
 
-#apsList__details {
-  display: flex;
-  flex-direction: column;
-}
-
-#apsList input{
+#apsList input, select{
   box-sizing: border-box;
   border: 1px solid #ebebeb;
   padding: 5px;
@@ -252,6 +247,17 @@ input[type=text]:focus {
   -ms-border-radius: 5px;
   font-size: 14px;
   font-family: 'Poppins'; 
+}
+
+.apsList__details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.button__center {
+  margin: 0 auto;
 }
 
 .index__hero {

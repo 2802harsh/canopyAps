@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Owner Registration</title>
     <link rel="stylesheet" href="/static/css/customStyles.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/accordion.min.css" integrity="sha512-BIyIsOFJCQKKhxrCMtXBi1RJTXmV1vuMEWCRbU/UFieuYyvGAbl03GktViTWKM39yu9Jywbec1V0cRbQ6KgMVQ==" crossorigin="anonymous" />
 </head>
 <body>
     <%- include("./partials/navbar.ejs", {name: user.OwnerName}) %> 
@@ -29,14 +30,21 @@
                 <label>Number of Apartments: </label>
                 <input type="text" id="apartments" name="apartments" onchange="changeHandler()">
             </div>
-            <div id="apsList">
+            <div id="apsList" class="ui accordion">
                 
             </div>
             <div>
-                <input type="submit" value="Add Building" class="button">
+                <input type="submit" value="Add Building" class="button button__center">
             </div>
         </form>
     </div>
+    <script src="/static/vendor/jquery/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/accordion.min.js" integrity="sha512-zy/iMxvOAQO5VsB1/enNUXKWxoSBFAyjXwwwIU+sMYf2+iOnqoW2EokpAnnTwue6/Kcv3w7qyALGbppj3mOVgA==" crossorigin="anonymous"></script>
+    <script language='javascript'>
+        $(document).ready(function(){
+           $('.ui.accordion').accordion();
+        });
+    </script>
     <script>
         const apartments = document.getElementById('apartments');
         const apsList = document.getElementById('apsList');
@@ -48,28 +56,33 @@
             }
             for (let i=1; i<=aps; i++){
                 let div = document.createElement('div');
+                div.classList.add("apsList__apartment")
                 div.innerHTML = `
-                Apartment ${i}
-                <br/>
-                <div class="apsList__details">
-                    <label>Flat Number: </label>
-                    <input type="text" id="flatnumber${i}" name="flatnumber${i}">
+                <div class="title">
+                    <i class="dropdown icon"></i>
+                    Apartment ${i}
                 </div>
-                <div class="apsList__details">
-                    <label>Tenant: </label>
-                    <select name="tenantid${i}" id="tenantid${i}">
-                        <% tenants.forEach(function(tenant){ %>
-                            <option value="<%= tenant.Id %>"><%= tenant.TenantName %></option>
-                        <% }); %>
-                    </select>
-                </div>
-                <div class="apsList__details">
-                    <label>Rent: </label>
-                    <input type="text" id="rent${i}" name="rent${i}">
-                </div>
-                <div class="apsList__details">
-                    <label>Start Date: </label>
-                    <input type="date" id="startdate${i}" name="startdate${i}">
+                <div class="content">
+                    <div class="apsList__details">
+                        <label>Flat Number: </label>
+                        <input type="text" id="flatnumber${i}" name="flatnumber${i}">
+                    </div>
+                    <div class="apsList__details">
+                        <label>Tenant: </label>
+                        <select name="tenantid${i}" id="tenantid${i}">
+                            <% tenants.forEach(function(tenant){ %>
+                                <option value="<%= tenant.Id %>"><%= tenant.TenantName %></option>
+                            <% }); %>
+                        </select>
+                    </div>
+                    <div class="apsList__details">
+                        <label>Rent: </label>
+                        <input type="text" id="rent${i}" name="rent${i}">
+                    </div>
+                    <div class="apsList__details">
+                        <label>Start Date: </label>
+                        <input type="date" id="startdate${i}" name="startdate${i}">
+                    </div>
                 </div>
                 `
                 apsList.appendChild(div);
