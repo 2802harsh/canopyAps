@@ -462,6 +462,9 @@ select {
   padding: 0;
 }
 
+.payment-due{
+  color: red !important;
+}
 .pay-now-button {
   color: var(--green-primary) !important;
   font-size: 1.1rem;
