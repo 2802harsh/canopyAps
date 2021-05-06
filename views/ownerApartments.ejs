@@ -39,6 +39,19 @@
     </div>
 
     <script>
+        function formatDate(date) {
+            var d = new Date(date),
+                month = '' + (d.getMonth() + 1),
+                day = '' + d.getDate(),
+                year = d.getFullYear();
+
+            if (month.length < 2) 
+                month = '0' + month;
+            if (day.length < 2) 
+                day = '0' + day;
+
+            return [year, month, day].join('-');
+        }
         function edit(apId) {
             console.log("here");
             let form = document.getElementById('edit-form');
@@ -66,7 +79,7 @@
                     </div>
                     <div class="editAps__details">
                         <label>Start Date: </label>
-                        <input type="date" id="startDate" name="startDate" value="${apartment.StartDate.split('T')[0]}">
+                        <input type="date" id="startDate" name="startDate" value="${formatDate(apartment.StartDate)}">
                     </div>
                     <br>
                     <input class="button" type="submit" value="Update">

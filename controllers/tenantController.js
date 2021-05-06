@@ -94,7 +94,8 @@ let tenantPayRentPost = (req,res) => {
         let apartmentId = req.body.apartmentId;
         let tenantId = req.body.tenantId;
         let rent = req.body.rent;
-        let date = new Date().toISOString().split("T")[0];
+        // let date = new Date(Date.now()).toISOString().split("T")[0];
+        let date = new Date(Date.now()).getFullYear() + '-' + (new Date(Date.now()).getMonth()+1) + '-' + new Date(Date.now()).getDate()
         let query = `INSERT INTO PaymentTable (Date, BuildingId, ApartmentId, TenantId, PaidRent) VALUES ("${date}", "${buildingId}", "${apartmentId}", "${tenantId}", "${rent}");`
         con.query(query, function (err, result, fields) {
             if (err) {
