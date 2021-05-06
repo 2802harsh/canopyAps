@@ -1,29 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Owner Dashboard</title>
     <link rel="stylesheet" href="/static/css/customStyles.css" />
-</head>
-<body>
-    <%- include("./partials/navbar.ejs", {name: user.OwnerName}) %> 
+  </head>
+  <body>
+    <%- include("./partials/navbar.ejs", {name: user.OwnerName}) %>
 
-    <div class = "container">
-        <div class="my-buildings">
-            <div class="my-buildings__header">
-                <h2>My Buildings</h2>
-                <a class="button" href="/owner/addBuilding">Add Building</a>
-            </div>
-            <ul class="building-list">
-            <% buildings.forEach(function(building){ %>
-                <li><%= building.BuildingName %>: <%= building.Address %></li>
-            <% }); %>
-            </ul>
+    <div class="container">
+      <div class="my-buildings">
+        <div class="my-buildings__header">
+          <h2>My Buildings</h2>
+          <a class="button" href="/owner/addBuilding">Add Building</a>
         </div>
+        <ul class="building-list">
+          <% buildings.forEach(function(building){ %>
+          <li><%= building.BuildingName %>: <%= building.Address %></li>
+          <% }); %>
+        </ul>
+      </div>
     </div>
-    <h1> Recent Payments (Please Beautify :) )</h1>
-    <%= JSON.stringify(recentPayments) %>
-</body>
+    <h1 style="padding-left: 20px;">Recent Payments:</h1>
+    <script>
+      function getMonthText(idx){
+        arr = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"]
+        return arr[idx];
+      }
+      window.onload = function(){
+        for(i =0 ;i < document.getElementsByClassName("date-container").length;i++){
+          let element = document.getElementsByClassName("date-container")[i];
+          element.innerHTML = `
+          <div>
+        <span class="date-wrapper">${element.getAttribute("data-date")}</span>
+        <br>
+        <span class="month-wrapper">${getMonthText(element.getAttribute("data-month"))}</span>
+      </div>`;
+        }
+      };
+    </script>    
+    <table class="recent-payment-container">
+      <tr style="background:  #ddd;">
+        <th>
+          SNo.
+        </th>
+        <th>
+          Date
+        </th>
+        <th>
+          Details
+        </th>
+        <th>
+          Flat Number
+        </th>
+        <th>
+          Rent
+        </th>
+      </tr>
+    <% for(let [index,data] of recentPayments.entries() || []){ %> 
+    <tr>
+      <td><%= index + 1 %></td>
+      <td class="date-container" data-date="<%= data.PaymentDate.getDate() %>" data-month="<%= data.PaymentDate.getMonth() %>"></td>
+      <td>
+        <div>
+          <span class="tenant-name-wrapper">
+            <%= data.TenantName %>
+          </span>
+          <br>
+          <span>
+            <%= data.BuildingName %>
+          </span>          
+        </div>
+      </td>
+      <td><%= data.FlatNumber %></td>
+      <td>₹ <%= data.Rent %></td>
+    </tr>
+    <%} %>
+    </table>
+  </body>
 </html>

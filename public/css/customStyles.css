@@ -326,3 +326,39 @@ input[type=text]:focus {
 .SectionLinkWrapper a{
   margin-right: 10px;
 }
+
+.recent-payment-container{
+  width: 100%;
+  padding: 10px 20px;
+  text-align:center;
+}
+
+.recent-payment-container tr{
+  border:solid 1px #aeaaaa;
+}
+
+.recent-payment-container tr:nth-child(even){background-color: #f2f2f2;}
+
+.recent-payment-container tr:hover {background-color: #ddd;}
+
+.recent-payment-container td, .recent-payment-container th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.date-wrapper , .tenant-name-wrapper{
+  font-size: 1.3rem;
+}
+
+.rented-apartments-tenant{
+  padding: 0;
+}
+
+.pay-now-button{
+  color: blue;
+  font-weight: bold;
+  background: white;
+  border: none;
+  padding: 5px 15px;
+  border-radius: 50px;
+}
