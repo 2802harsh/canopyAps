@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="/static/css/customStyles.css" />
   </head>
   <body>
-    <%- include("./partials/navbar.ejs", {name: user.OwnerName}) %>
+    <%- include("./partials/navbar.ejs", {name: user.OwnerName , type: "owner"}) %>
 
     <div class="container my-buildings__container">
       <div class="my-buildings">
@@ -18,7 +18,7 @@
         </div>
         <ol class="building-list">
           <% buildings.forEach(function(building){ %>
-          <li><%= building.BuildingName %>: <%= building.Address %></li>
+          <li><a href="/owner/buildings/<%= building.Id %>"><%= building.BuildingName %>: <%= building.Address %></a></li>
           <% }); %>
           </ol>
       </div>

@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/accordion.min.css" integrity="sha512-BIyIsOFJCQKKhxrCMtXBi1RJTXmV1vuMEWCRbU/UFieuYyvGAbl03GktViTWKM39yu9Jywbec1V0cRbQ6KgMVQ==" crossorigin="anonymous" />
 </head>
 <body>
-    <%- include("./partials/navbar.ejs", {name: user.OwnerName}) %> 
+    <%- include("./partials/navbar.ejs", {name: user.OwnerName , type: "owner"}) %> 
     <div class = "addBuilding">
         <form method="POST" class="addBuilding__form">
             <div class="addBuilding__details">

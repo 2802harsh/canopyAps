@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="/static/css/customStyles.css" />
   </head>
   <body>
-    <%- include("./partials/navbar.ejs", {name: user.TenantName}) %>
+    <%- include("./partials/navbar.ejs", {name: user.TenantName, type: "tenant"}) %>
     <div class="container">
       <h1>Rented Apartments</h1>
       <div id="rented-apartments">

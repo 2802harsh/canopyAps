@@ -8,27 +8,34 @@
     <link rel="stylesheet" href="/static/css/customStyles.css" />
 </head>
 <body>
+    <%- include("./partials/navbar.ejs", {name: user.OwnerName, type: "owner"}) %> 
     <div class="container">
-        <h1><%= building[0].BuildingName %> , <%= building[0].Address %></h1>
-        <h2>Apartments</h2>
+        <div class="rented-apartments__header">
+            <h1><%= building[0].BuildingName %> , <%= building[0].Address %></h1>
+            <button class="button" onclick="newApt()">Add New Apartment</button>
+        </div>
+        <div id="new-apt">
+
+        </div>
+
         <div id="edit-form">
 
         </div>
         <div id="rented-apartments">
-            <% apartments.forEach((apartment) => { %>
-                <div>
-                    <h3>Apartment: <%= apartment.ApartmentId %></h3>
-                    <p>Tenant: <%= apartment.TenantName %></p>
-                    <p>Last Payment: <%= new Date(apartment.LastPaymentDate).toLocaleDateString() %></p>
-                    <button id="<%= apartment.ApartmentId %>" onclick="edit('<%= JSON.stringify(apartment) %>')">EDIT</button>
-                </div>
-            <% }) %>
+            <ol class="building-list">
+                <% apartments.forEach((apartment) => { %>
+                    <li>
+                        <div class = "apartment-edit-list">
+                            <h3>Apartment: <%= apartment.ApartmentId %></h3>
+                            <p>Tenant: <%= apartment.TenantName %></p>
+                            <p>Last Payment: <%= new Date(apartment.LastPaymentDate).toLocaleDateString() %></p>
+                            <button class="button" id="<%= apartment.ApartmentId %>" onclick="edit('<%= JSON.stringify(apartment) %>')">EDIT</button>
+                        </div>
+                    </li>
+                <% }) %>
+            </ol>
         </div>
         <br />
-        <button onclick="newApt()">Add New Apartment</button>
-        <div id="new-apt">
-
-        </div>
     </div>
 
     <script>
@@ -37,63 +44,67 @@
             let form = document.getElementById('edit-form');
             let apartment = JSON.parse(apId);
             form.innerHTML = `
-            <form method="POST">
-                EDITING Apartment: ${apartment.ApartmentId}
-                <input type="hidden" name="apartmentId" value="${apartment.ApartmentId}">
-                <div class="apsList__details">
-                    <label>Flat Number: </label>
-                    <input type="text" id="flatNumber" name="flatNumber" value="${apartment.FlatNumber}">
-                </div>
-                <div class="apsList__details">
-                    <label>Tenant: </label>
-                    <select name="tenantId" id="tenantId">
-                        <% tenants.forEach(function(tenant){ %>
-                            <option value="<%= tenant.Id %>" ${"<%= tenant.Id %>"==apartment.TenantId && "selected"}><%= tenant.TenantName %></option>
-                        <% }); %>
-                    </select>
-                </div>
-                <div class="apsList__details">
-                    <label>Rent: </label>
-                    <input type="text" id="rent" name="rent" value="${apartment.Rent}">
-                </div>
-                <div class="apsList__details">
-                    <label>Start Date: </label>
-                    <input type="date" id="startDate" name="startDate" value="${apartment.StartDate.split('T')[0]}">
-                </div>
-                <input type="submit" value="Update">
-            </form>
-            <br /><br />
+            <div>
+                <form method="POST" class="editAps editWidth">
+                    <strong>EDITING Apartment ${apartment.ApartmentId}</strong><br>
+                    <input type="hidden" name="apartmentId" value="${apartment.ApartmentId}">
+                    <div class="editAps__details">
+                        <label>Flat Number: </label>
+                        <input type="text" id="flatNumber" name="flatNumber" value="${apartment.FlatNumber}">
+                    </div>
+                    <div class="editAps__details">
+                        <label>Tenant: </label>
+                        <select name="tenantId" id="tenantId">
+                            <% tenants.forEach(function(tenant){ %>
+                                <option value="<%= tenant.Id %>" ${"<%= tenant.Id %>"==apartment.TenantId && "selected"}><%= tenant.TenantName %></option>
+                            <% }); %>
+                        </select>
+                    </div>
+                    <div class="editAps__details">
+                        <label>Rent: </label>
+                        <input type="text" id="rent" name="rent" value="${apartment.Rent}">
+                    </div>
+                    <div class="editAps__details">
+                        <label>Start Date: </label>
+                        <input type="date" id="startDate" name="startDate" value="${apartment.StartDate.split('T')[0]}">
+                    </div>
+                    <br>
+                    <input class="button" type="submit" value="Update">
+                </form>
+            </div>
             `
         }
 
         function newApt() {
             let form = document.getElementById('new-apt');
             form.innerHTML = `
-            <form method="POST">
-                NEW APARTMENT
-                <div class="apsList__details">
-                    <label>Flat Number: </label>
-                    <input type="text" id="flatNumber" name="flatNumber">
-                </div>
-                <div class="apsList__details">
-                    <label>Tenant: </label>
-                    <select name="tenantId" id="tenantId">
-                        <% tenants.forEach(function(tenant){ %>
-                            <option value="<%= tenant.Id %>"}><%= tenant.TenantName %></option>
-                        <% }); %>
-                    </select>
-                </div>
-                <div class="apsList__details">
-                    <label>Rent: </label>
-                    <input type="text" id="rent" name="rent">
-                </div>
-                <div class="apsList__details">
-                    <label>Start Date: </label>
-                    <input type="date" id="startDate" name="startDate">
-                </div>
-                <input type="submit" value="Add">
-            </form>
-            <br /><br />
+            <div>
+                <form method="POST" class="editAps editWidth">
+                    <strong>NEW APARTMENT</strong><br>
+                    <div class="editAps__details">
+                        <label>Flat Number: </label>
+                        <input type="text" id="flatNumber" name="flatNumber">
+                    </div>
+                    <div class="editAps__details">
+                        <label>Tenant: </label>
+                        <select name="tenantId" id="tenantId">
+                            <% tenants.forEach(function(tenant){ %>
+                                <option value="<%= tenant.Id %>"}><%= tenant.TenantName %></option>
+                            <% }); %>
+                        </select>
+                    </div>
+                    <div class="editAps__details">
+                        <label>Rent: </label>
+                        <input type="text" id="rent" name="rent">
+                    </div>
+                    <div class="editAps__details">
+                        <label>Start Date: </label>
+                        <input type="date" id="startDate" name="startDate">
+                    </div>
+                    <br>
+                    <input class="button" type="submit" value="Add">
+                </form>
+            </div>
             `
         }
     </script>
