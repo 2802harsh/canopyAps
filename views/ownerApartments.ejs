@@ -26,7 +26,7 @@
                 <% apartments.forEach((apartment) => { %>
                     <li>
                         <div class = "apartment-edit-list">
-                            <h3>Apartment: <%= apartment.ApartmentId %></h3>
+                            <h3>Apartment: <%= apartment.FlatNumber %></h3>
                             <p>Tenant: <%= apartment.TenantName %></p>
                             <p>Last Payment: <%= new Date(apartment.LastPaymentDate).toLocaleDateString() %></p>
                             <button class="button" id="<%= apartment.ApartmentId %>" onclick="edit('<%= JSON.stringify(apartment) %>')">EDIT</button>
@@ -59,7 +59,7 @@
             form.innerHTML = `
             <div>
                 <form method="POST" class="editAps editWidth">
-                    <strong>EDITING Apartment ${apartment.ApartmentId}</strong><br>
+                    <strong>EDITING Apartment ${apartment.FlatNumber}</strong><br>
                     <input type="hidden" name="apartmentId" value="${apartment.ApartmentId}">
                     <div class="editAps__details">
                         <label>Flat Number: </label>
