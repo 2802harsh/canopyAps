@@ -78,6 +78,7 @@ let ownerDashboard = (req, res) => {
                     ORDER BY PaymentDate DESC
                     LIMIT 5`;
       con.query(query2, function (err, resu) {
+        console.log(result);
         res.render("ownerDashboard", {
           user: req.session.user,
           buildings: result,

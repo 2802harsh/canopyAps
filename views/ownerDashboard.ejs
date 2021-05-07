@@ -18,7 +18,13 @@
         </div>
         <ol class="building-list">
           <% buildings.forEach(function(building){ %>
-          <li><a href="/owner/buildings/<%= building.Id %>"><%= building.BuildingName %>: <%= building.Address %></a></li>
+          <li>
+            <a href="/owner/buildings/<%= building.Id %>"><%= building.BuildingName %>: <%= building.Address %></a>
+            <button onclick = "editBuilding('<%= JSON.stringify(building) %>')" class="button button-secondary">Edit Building</button>
+          </li>
+          <div id="editBuilding<%= building.Id %>">
+          
+          </div>
           <% }); %>
           </ol>
       </div>
@@ -39,6 +45,48 @@
       </div>`;
         }
       };
+
+      function editBuilding(building){
+        let b = JSON.parse(building);
+        let element = document.getElementById(`editBuilding${b.Id}`);
+        element.innerHTML = `
+        <div>
+          <form method="POST" action="/owner/updatebuilding/${b.Id}" class="editAps editWidth">
+              <strong>EDITING Building ${b.Id}</strong><br>
+              <input type="hidden" name="buildingId" value="${b.name}">
+              <div class="editAps__details">
+                  <label>Building name: </label>
+                  <input type="text" id="name" name="name" value="${b.BuildingName}">
+              </div>
+              <div class="editAps__details">
+                  <label>Address: </label>
+                  <input type="text" id="address" name="address" value="${b.Address}">
+              </div>
+              <div class="editAps__details">
+                  <label>Floors: </label>
+                  <input type="text" id="floors" name="floors" value="${b.Floors}">
+              </div>
+              <br>
+              <input class="button button-secondary" type="submit" value="Update">
+              <button class="button button-danger cancel-button" data-id="${b.Id}">Cancel</button>
+              </form>
+        </div>
+        `
+        let cancelButton = document.querySelector(".cancel-button");
+        cancelButton.addEventListener("click", function(){
+          let element = document.getElementById(`editBuilding${b.Id}`);
+          element.innerHTML = '';
+          return false;
+        });
+      }
+
+      function clear(id) {
+        console.log("here");
+        let el = document.getElementById(JSON.parse(id));
+        el.innerHTML = "";
+        return false;
+      }
+
     </script>
     <div class="container">
       <h1 class="recent-payments__header">Recent Payments</h1>

@@ -195,7 +195,7 @@
 
 :root {
   --green-primary: rgb(50, 158, 94);
-  --green-primary-5: rgba(50, 158, 94, 0.7);
+  --green-secondary: #96CEA5;
 }
 
 body {
@@ -280,6 +280,8 @@ a {
 }
 
 .building-list li {
+  display: flex;
+  justify-content: space-between;
   font-size: 1.2rem;
   padding: 1rem 0;
 }
@@ -671,4 +673,13 @@ ol.building-list > li + li {
 .editWidth { 
   width: 50%;
   margin: 2rem auto;
+}
+
+.button-secondary {
+  background-color: var(--green-secondary);
+}
+
+.button-danger {
+  margin-top: 1rem;
+  background-color: #E7E9E0;
 }
