@@ -63,11 +63,11 @@
                     <input type="hidden" name="apartmentId" value="${apartment.ApartmentId}">
                     <div class="editAps__details">
                         <label>Flat Number: </label>
-                        <input type="text" id="flatNumber" name="flatNumber" value="${apartment.FlatNumber}">
+                        <input required type="text" id="flatNumber" name="flatNumber" value="${apartment.FlatNumber}">
                     </div>
                     <div class="editAps__details">
                         <label>Tenant: </label>
-                        <select name="tenantId" id="tenantId">
+                        <select required name="tenantId" id="tenantId">
                             <% tenants.forEach(function(tenant){ %>
                                 <option value="<%= tenant.Id %>" ${"<%= tenant.Id %>"==apartment.TenantId && "selected"}><%= tenant.TenantName %></option>
                             <% }); %>
@@ -75,11 +75,11 @@
                     </div>
                     <div class="editAps__details">
                         <label>Rent: </label>
-                        <input type="text" id="rent" name="rent" value="${apartment.Rent}">
+                        <input required type="text" id="rent" name="rent" value="${apartment.Rent}">
                     </div>
                     <div class="editAps__details">
                         <label>Start Date: </label>
-                        <input type="date" id="startDate" name="startDate" value="${formatDate(apartment.StartDate)}">
+                        <input required type="date" id="startDate" name="startDate" value="${formatDate(apartment.StartDate)}">
                     </div>
                     <br>
                     <input class="button button-secondary" type="submit" value="Update">

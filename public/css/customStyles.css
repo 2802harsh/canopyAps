@@ -535,9 +535,9 @@ ol.building-list > li {
   background: white;
   border-radius: 0 0.5rem 0.5rem 0.5rem;
   counter-increment: gradient-counter;
-  margin-top: 1rem;
+  margin-top: 2.5rem;
   min-height: 3rem;
-  padding: 1rem 1rem 1rem 3rem;
+  padding: 1.3rem 1rem 1.3rem 3rem;
   position: relative;
 }
 ol.building-list > li::before,

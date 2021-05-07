@@ -60,16 +60,16 @@
               <strong>EDITING Building ${b.Id}</strong><br>
               <input type="hidden" name="buildingId" value="${b.name}">
               <div class="editAps__details">
-                  <label>Building name: </label>
-                  <input type="text" id="name" name="name" value="${b.BuildingName}">
+                  <label class="required">Building name: </label>
+                  <input required type="text" id="name" name="name" value="${b.BuildingName}">
               </div>
               <div class="editAps__details">
-                  <label>Address: </label>
-                  <input type="text" id="address" name="address" value="${b.Address}">
+                  <label class="required">Address: </label>
+                  <input required type="text" id="address" name="address" value="${b.Address}">
               </div>
               <div class="editAps__details">
-                  <label>Floors: </label>
-                  <input type="text" id="floors" name="floors" value="${b.Floors}">
+                  <label class="required">Floors: </label>
+                  <input required type="text" id="floors" name="floors" value="${b.Floors}">
               </div>
               <br>
               <input class="button button-secondary" type="submit" value="Update">
