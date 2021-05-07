@@ -195,7 +195,9 @@
 
 :root {
   --green-primary: rgb(50, 158, 94);
-  --green-secondary: #96CEA5;
+  --green-primary-dark: #267747;
+  --green-secondary:  #9fddb0;
+  --green-secondary-dark: #96cea5;
 }
 
 body {
@@ -252,6 +254,32 @@ a {
   cursor: pointer;
   text-transform: uppercase;
   border-radius: 5px;
+  /* transition: ease-in 0.1s; */
+}
+
+.button:hover {
+  background-color: var(--green-primary-dark);
+}
+
+.button-secondary {
+  background-color: var(--green-secondary);
+}
+
+.button-secondary:hover {
+  background-color: var(--green-secondary-dark);
+}
+
+.button-danger {
+  margin-top: 1rem;
+  background-color: #E7E9E0;
+}
+
+.button-danger:hover {
+  background-color: #ced0c8;
+}
+
+.button__center {
+  margin: 0 auto;
 }
 
 .my-buildings__container {
@@ -346,10 +374,6 @@ select {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 5px;
-}
-
-.button__center {
-  margin: 0 auto;
 }
 
 .index__hero {
@@ -675,11 +699,8 @@ ol.building-list > li + li {
   margin: 2rem auto;
 }
 
-.button-secondary {
-  background-color: var(--green-secondary);
-}
-
-.button-danger {
-  margin-top: 1rem;
-  background-color: #E7E9E0;
+.building-list__link {
+  width: 100%;
+  display: inline-block;
+  margin-right: 10rem;
 }

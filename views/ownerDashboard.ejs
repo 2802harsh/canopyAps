@@ -18,8 +18,12 @@
         </div>
         <ol class="building-list">
           <% buildings.forEach(function(building){ %>
-          <li>
-            <a href="/owner/buildings/<%= building.Id %>"><%= building.BuildingName %>: <%= building.Address %></a>
+          <li id="building<%= building.Id %>">
+            <div>
+                <a class="building-list__link" href="/owner/buildings/<%= building.Id %>">
+                  <%= building.BuildingName %>: <%= building.Address %>
+                </a>
+              </div>
             <button onclick = "editBuilding('<%= JSON.stringify(building) %>')" class="button button-secondary">Edit Building</button>
           </li>
           <div id="editBuilding<%= building.Id %>">
@@ -49,6 +53,7 @@
       function editBuilding(building){
         let b = JSON.parse(building);
         let element = document.getElementById(`editBuilding${b.Id}`);
+        let parent = document.getElementById(`building${b.Id}`);
         element.innerHTML = `
         <div>
           <form method="POST" action="/owner/updatebuilding/${b.Id}" class="editAps editWidth">
@@ -68,11 +73,13 @@
               </div>
               <br>
               <input class="button button-secondary" type="submit" value="Update">
-              <button class="button button-danger cancel-button" data-id="${b.Id}">Cancel</button>
+              <button type="button" class="button button-danger cancel-button-${b.Id}" data-id="${b.Id}">Cancel</button>
               </form>
         </div>
         `
-        let cancelButton = document.querySelector(".cancel-button");
+        parent.scrollIntoView({behavior: 'smooth'});
+
+        let cancelButton = document.querySelector(`.cancel-button-${b.Id}`);
         cancelButton.addEventListener("click", function(){
           let element = document.getElementById(`editBuilding${b.Id}`);
           element.innerHTML = '';

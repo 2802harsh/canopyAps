@@ -18,13 +18,10 @@
 
         </div>
 
-        <div id="edit-form">
-
-        </div>
         <div id="rented-apartments">
             <ol class="building-list">
                 <% apartments.forEach((apartment) => { %>
-                    <li>
+                    <li id="apartment-<%= apartment.ApartmentId %>">
                         <div class = "apartment-edit-list">
                             <h3>Apartment: <%= apartment.FlatNumber %></h3>
                             <p>Tenant: <%= apartment.TenantName %></p>
@@ -32,6 +29,9 @@
                             <button class="button" id="<%= apartment.ApartmentId %>" onclick="edit('<%= JSON.stringify(apartment) %>')">EDIT</button>
                         </div>
                     </li>
+                    <div id="edit-form-<%= apartment.ApartmentId %>">
+
+                    </div>
                 <% }) %>
             </ol>
         </div>
@@ -53,9 +53,9 @@
             return [year, month, day].join('-');
         }
         function edit(apId) {
-            console.log("here");
-            let form = document.getElementById('edit-form');
             let apartment = JSON.parse(apId);
+            let form = document.getElementById(`edit-form-${apartment.ApartmentId}`);
+            let parent = document.getElementById(`apartment-${apartment.ApartmentId}`);
             form.innerHTML = `
             <div>
                 <form method="POST" class="editAps editWidth">
@@ -82,10 +82,19 @@
                         <input type="date" id="startDate" name="startDate" value="${formatDate(apartment.StartDate)}">
                     </div>
                     <br>
-                    <input class="button" type="submit" value="Update">
+                    <input class="button button-secondary" type="submit" value="Update">
+                    <button type="button" class="button button-danger cancel-button-${apartment.ApartmentId}" data-id="${apartment.ApartmentId}">Cancel</button>
                 </form>
             </div>
             `
+            parent.scrollIntoView({behavior: 'smooth'});
+
+            let cancelButton = document.querySelector(`.cancel-button-${apartment.ApartmentId}`);
+            cancelButton.addEventListener("click", function(){
+                let element = document.getElementById(`edit-form-${apartment.ApartmentId}`);
+                element.innerHTML = '';
+                return false;
+            });
         }
 
         function newApt() {
@@ -115,10 +124,19 @@
                         <input type="date" id="startDate" name="startDate">
                     </div>
                     <br>
-                    <input class="button" type="submit" value="Add">
+                    <input class="button button-secondary" type="submit" value="Add">
+                    <button type="button" class="button button-danger cancel-button">Cancel</button>
                 </form>
             </div>
             `
+            form.scrollIntoView({behavior: 'smooth'});
+
+            let cancelButton = document.querySelector(`.cancel-button`);
+            cancelButton.addEventListener("click", function(){
+                let element = document.getElementById(`new-apt`);
+                element.innerHTML = '';
+                return false;
+            });
         }
     </script>
 </body>
