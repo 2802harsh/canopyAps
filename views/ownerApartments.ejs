@@ -25,7 +25,9 @@
                         <div class = "apartment-edit-list">
                             <h3>Apartment: <%= apartment.FlatNumber %></h3>
                             <p>Tenant: <%= apartment.TenantName %></p>
-                            <p>Last Payment: <%= new Date(apartment.LastPaymentDate).toLocaleDateString() %></p>
+                            <% if(apartment.LastPaymentDate){ %>
+                                <p>Last Payment: <%= new Date(apartment.LastPaymentDate).toLocaleDateString() %></p>
+                            <% } %>
                             <button class="button" id="<%= apartment.ApartmentId %>" onclick="edit('<%= JSON.stringify(apartment) %>')">EDIT</button>
                         </div>
                     </li>
