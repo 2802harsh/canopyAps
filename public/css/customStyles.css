@@ -704,3 +704,7 @@ ol.building-list > li + li {
   display: inline-block;
   margin-right: 10rem;
 }
+
+.card-wrapper-rented{
+  width: 100%;
+}
