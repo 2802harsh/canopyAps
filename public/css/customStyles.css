@@ -331,7 +331,7 @@ a {
   width: 100%;
 }
 
-.addBuilding__details input[type="text"] {
+.addBuilding__details input[type=text], .addBuilding__details input[type=number] {
   box-sizing: border-box;
   border: 1px solid #ebebeb;
   padding: 14px 20px;
@@ -344,7 +344,7 @@ a {
   font-family: "Poppins";
 }
 
-input[type="text"]:focus {
+input[type="text"]:focus, input[type=number]:focus {
   border: 1px solid var(--green-primary);
 }
 
@@ -673,7 +673,7 @@ ol.building-list > li + li {
   box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 }
 
-.editAps input[type=date], .editAps input[type=text], select{
+.editAps input[type=date], .editAps input[type=text], .editAps input[type=number], select{
   box-sizing: border-box;
   border: 1px solid #ebebeb;
   padding: 5px;
@@ -707,4 +707,22 @@ ol.building-list > li + li {
 
 .card-wrapper-rented{
   width: 100%;
+}
+
+.validationError {
+  border: 1px solid red!important;
+}
+
+.requiredFields {
+  margin: 10px 0;
+  opacity: 0.8;
+}
+
+.requiredFieldsError {
+  display: block;
+  padding: 5px 0;
+}
+
+.requiredFieldsError__invisible {
+    display: none;
 }

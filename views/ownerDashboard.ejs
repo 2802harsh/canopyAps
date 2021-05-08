@@ -33,6 +33,7 @@
           </ol>
       </div>
     </div>
+    
     <script>
       function getMonthText(idx){
         arr = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"]
@@ -56,7 +57,7 @@
         let parent = document.getElementById(`building${b.Id}`);
         element.innerHTML = `
         <div>
-          <form method="POST" action="/owner/updatebuilding/${b.Id}" class="editAps editWidth">
+          <form method="POST" id="editBuildingForm" action="/owner/updatebuilding/${b.Id}" class="editAps editWidth">
               <strong>EDITING Building ${b.Id}</strong><br>
               <input type="hidden" name="buildingId" value="${b.name}">
               <div class="editAps__details">
@@ -69,7 +70,7 @@
               </div>
               <div class="editAps__details">
                   <label class="required">Floors: </label>
-                  <input required type="text" id="floors" name="floors" value="${b.Floors}">
+                  <input required type="number"  id="floors" name="floors" value="${b.Floors}">
               </div>
               <br>
               <input class="button button-secondary" type="submit" value="Update">

@@ -77,7 +77,7 @@
                     </div>
                     <div class="editAps__details">
                         <label>Rent: </label>
-                        <input required type="text" id="rent" name="rent" value="${apartment.Rent}">
+                        <input required type="number" step="any" id="rent" name="rent" value="${apartment.Rent}">
                     </div>
                     <div class="editAps__details">
                         <label>Start Date: </label>
@@ -107,11 +107,11 @@
                     <strong>NEW APARTMENT</strong><br>
                     <div class="editAps__details">
                         <label>Flat Number: </label>
-                        <input type="text" id="flatNumber" name="flatNumber">
+                        <input required type="text" id="flatNumber" name="flatNumber">
                     </div>
                     <div class="editAps__details">
                         <label>Tenant: </label>
-                        <select name="tenantId" id="tenantId">
+                        <select required name="tenantId" id="tenantId">
                             <% tenants.forEach(function(tenant){ %>
                                 <option value="<%= tenant.Id %>"}><%= tenant.TenantName %></option>
                             <% }); %>
@@ -119,11 +119,11 @@
                     </div>
                     <div class="editAps__details">
                         <label>Rent: </label>
-                        <input type="text" id="rent" name="rent">
+                        <input required type="number" id="rent" name="rent">
                     </div>
                     <div class="editAps__details">
                         <label>Start Date: </label>
-                        <input type="date" id="startDate" name="startDate">
+                        <input required type="date" id="startDate" name="startDate">
                     </div>
                     <br>
                     <input class="button button-secondary" type="submit" value="Add">
