@@ -262,6 +262,7 @@ a {
 }
 
 .button-secondary {
+  color: #1d1f20;
   background-color: var(--green-secondary);
 }
 
@@ -270,6 +271,7 @@ a {
 }
 
 .button-danger {
+  color: #1d1f20;
   margin-top: 1rem;
   background-color: #E7E9E0;
 }

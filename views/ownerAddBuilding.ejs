@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Owner Registration</title>
+    <link rel="icon" href="/static/images/apartment.png"">
     <link rel="stylesheet" href="/static/css/customStyles.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/accordion.min.css" integrity="sha512-BIyIsOFJCQKKhxrCMtXBi1RJTXmV1vuMEWCRbU/UFieuYyvGAbl03GktViTWKM39yu9Jywbec1V0cRbQ6KgMVQ==" crossorigin="anonymous" />
 </head>
@@ -13,21 +14,21 @@
     <div class = "addBuilding">
         <form method="POST" class="addBuilding__form" id="addBuilding__form" onsubmit="return validateAddBuilding()">
             <div class="addBuilding__details">
-                <label>Building Name * </label>
+                <label for="name">Building Name* </label>
                 <input type="text" id="name" name="name">
             </div>
             <div class="addBuilding__details">
-                <label>Address * </label>
+                <label for="address">Address* </label>
                 <input type="text" id="address" name="address">
             </div>
             
             <div class="addBuilding__details">
-                <label>Floors * </label>
+                <label for="floors">Floors* </label>
                 <input type="number" id="floors" name="floors">
             </div>
             
             <div class="addBuilding__details">
-                <label>Number of Apartments * </label>
+                <label for="apartments">Number of Apartments* </label>
                 <input type="number" id="apartments" name="apartments" onchange="changeHandler()">
             </div>
             <div id="apsList" class="ui accordion">
@@ -120,11 +121,11 @@
                 </div>
                 <div class="content">
                     <div class="apsList__details">
-                        <label>Flat Number * </label>
+                        <label for="flatnumber${i}">Flat Number* </label>
                         <input type="text" id="flatnumber${i}" name="flatnumber${i}">
                     </div>
                     <div class="apsList__details">
-                        <label>Tenant * </label>
+                        <label for="tenantid${i}">Tenant* </label>
                         <select name="tenantid${i}" id="tenantid${i}">
                             <% tenants.forEach(function(tenant){ %>
                                 <option value="<%= tenant.Id %>"><%= tenant.TenantName %></option>
@@ -132,11 +133,11 @@
                         </select>
                     </div>
                     <div class="apsList__details">
-                        <label>Rent * </label>
+                        <label for="rent${i}">Rent* </label>
                         <input type="number" step="any" id="rent${i}" name="rent${i}">
                     </div>
                     <div class="apsList__details">
-                        <label>Start Date * </label>
+                        <label for="startdate${i}">Start Date* </label>
                         <input type="date" id="startdate${i}" name="startdate${i}">
                     </div>
                 </div>
